@@ -1,0 +1,183 @@
+html,
+body,
+#root,
+.ant-layout {
+  min-height: 100vh;
+}
+
+/* cyrillic-ext */
+@font-face {
+  font-weight: 500;
+  font-family: "Manrope";
+  font-style: normal;
+  src: url(/fonts/Manrope.ttf) format("ttf");
+  font-display: swap;
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F,
+    U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-weight: 500;
+  font-family: "Manrope";
+  font-style: normal;
+  src: url(/fonts/Manrope.ttf) format("ttf");
+  font-display: swap;
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-weight: 500;
+  font-family: "Manrope";
+  font-style: normal;
+  src: url(/fonts/Manrope.ttf) format("ttf");
+  font-display: swap;
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1,
+    U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329,
+    U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-weight: 500;
+  font-family: "Manrope";
+  font-style: normal;
+  src: url(/fonts/Manrope.ttf) format("ttf");
+  font-display: swap;
+  unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF,
+    U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-weight: 500;
+  font-family: "Manrope";
+  font-style: normal;
+  src: url(/fonts/Manrope.ttf) format("ttf");
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191,
+    U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-weight: 700;
+  font-family: "Manrope";
+  font-style: normal;
+  src: url(/fonts/Manrope.ttf) format("ttf");
+  font-display: swap;
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F,
+    U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-weight: 700;
+  font-family: "Manrope";
+  font-style: normal;
+  src: url(/fonts/Manrope.ttf) format("ttf");
+  font-display: swap;
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-weight: 700;
+  font-family: "Manrope";
+  font-style: normal;
+  src: url(/fonts/Manrope.ttf) format("ttf");
+  font-display: swap;
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1,
+    U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329,
+    U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-weight: 700;
+  font-family: "Manrope";
+  font-style: normal;
+  src: url(/fonts/Manrope.ttf) format("ttf");
+  font-display: swap;
+  unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF,
+    U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-weight: 700;
+  font-family: "Manrope";
+  font-style: normal;
+  src: url(/fonts/Manrope.ttf) format("ttf");
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191,
+    U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+body {
+  margin: 0;
+  line-height: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+div,
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: var(--font-Manrope);
+}
+
+:root {
+  /* fonts */
+  --font-Manrope: Manrope;
+
+  /* font sizes */
+  --font-size-xs: 12px;
+  --font-size-3xs: 10px;
+  --font-size-base: 16px;
+  --font-size-md: 18px;
+  --font-size-xxl: 44px;
+  --font-size-sm: 14px;
+
+  /* Colors */
+  --color-mediumpurple: #a56edd;
+  --color-dimgray-100: #463854;
+  --color-dimgray-200: rgba(70, 56, 84, 0.2);
+  --color-dimgray-300: rgba(70, 56, 84, 0.1);
+  --color-gray: rgba(255, 255, 255, 0.2);
+  --color-darkslategray: #343743;
+  --color-darkslategray-100: rgba(52, 55, 67, 0.2);
+  --color-whitesmoke: #e9e8ee;
+  --color-darkorchid: #b65cf8;
+  --color-white: #fff;
+
+  /* Gaps */
+  --gap-8xs: 5px;
+  --gap-21xl: 40px;
+  --gap-29xl: 48px;
+  --gap-0: 0px;
+  --gap-13xl: 32px;
+  --gap-xs: 12px;
+  --gap-3xs: 10px;
+  --gap-5xl: 24px;
+  --gap-base: 16px;
+  --gap-3xl: 22px;
+
+  /* Paddings */
+  --padding-xl: 20px;
+  --padding-29xl: 48px;
+  --padding-13xl: 32px;
+  --padding-3xs: 10px;
+  --padding-sm: 14px;
+  --padding-base: 16px;
+  --padding-221xl: 240px;
+  --padding-5xs: 8px;
+  --padding-5xl: 24px;
+
+  /* border radiuses */
+  --br-33xl: 52px;
+  --br-8xl: 27px;
+  --br-26xl: 45px;
+  --br-8xs: 5px;
+  --br-3xs: 10px;
+  --br-xl: 20px;
+  --br-64xl: 83px;
+  --br-21xl-5: 40.5px;
+}

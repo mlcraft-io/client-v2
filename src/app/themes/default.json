@@ -1,0 +1,21 @@
+{
+  "token": {
+    "colorPrimary": "#470D69",
+    "fontFamily": "Manrope Variable"
+  },
+  "components": {
+    "Layout": {
+      "colorBgHeader": "transparent",
+      "colorBgBody": "transparent"
+    },
+    "Button": {
+      "colorPrimary": "#470D69",
+      "colorLink": "#470D69",
+      "colorLinkHover": "#8819f5"
+    },
+    "Typography": {
+      "colorLink": "#470D69",
+      "colorLinkHover": "#8819f5"
+    }
+  }
+}

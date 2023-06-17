@@ -1,5 +1,8 @@
-schema: './src/graphql/schemas/hasura.json'
-documents: './src/**/*.gql'
+schema:
+  - ${VITE_GRAPHQL_URL}:
+      headers:
+        x-hasura-admin-secret: ${VITE_HASURA_ADMIN_SECRET}
+documents: src/**/*.gql
 overwrite: true
 generates:
   ./src/graphql/generated.ts:

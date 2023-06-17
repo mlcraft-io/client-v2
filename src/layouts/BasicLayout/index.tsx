@@ -1,21 +1,18 @@
 import { Layout } from "antd";
+import { Outlet } from "react-router-dom";
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
-import styles from "./index.module.less";
-
 const { Content } = Layout;
 
-export type BasicLayoutProps = {
-  children: React.ReactNode;
-};
-
-const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
+const BasicLayout: React.FC = () => {
   return (
-    <Layout className={styles.root}>
+    <Layout>
       <Header />
-      <Content>{props.children}</Content>
+      <Content>
+        <Outlet />
+      </Content>
       <Footer />
     </Layout>
   );

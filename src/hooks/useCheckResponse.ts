@@ -1,4 +1,3 @@
-import { useHistory } from "@vitjs/runtime";
 import { message } from "antd";
 import { useDeepCompareEffect } from "ahooks";
 
@@ -20,7 +19,8 @@ const useCheckResponse = (
   cb: Callback = noop,
   meta: Meta = {}
 ) => {
-  const history = useHistory();
+  const history: string[] = [];
+  // const history = useHistory();
 
   const { successMessage = DEFAULT_SUCCESS, errorMessage = DEFAULT_FAILURE } =
     meta;

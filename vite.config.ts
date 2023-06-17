@@ -1,6 +1,5 @@
 // import * as path from 'path';
 import react from "@vitejs/plugin-react";
-import vitApp from "@vitjs/vit";
 import { visualizer } from "rollup-plugin-visualizer";
 import autoImport from "unplugin-auto-import/vite";
 import { defineConfig } from "vite";
@@ -8,8 +7,6 @@ import vitePluginImp from "vite-plugin-imp";
 import windiCSS from "vite-plugin-windicss";
 import tsconfigPaths from "vite-tsconfig-paths";
 import svgx from "@svgx/vite-plugin-react";
-
-import routes from "./config/routes";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -44,13 +41,6 @@ export default defineConfig({
           style: (name) => `antd/es/${name}/style`,
         },
       ],
-    }),
-    vitApp({
-      routes,
-      dynamicImport: {
-        loading: "./components/PageLoading",
-      },
-      exportStatic: {},
     }),
     windiCSS(),
     visualizer(),
@@ -88,7 +78,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          "react-venders": ["react", "react-dom", "@vitjs/runtime"],
+          "react-venders": ["react", "react-dom"],
         },
       },
     },

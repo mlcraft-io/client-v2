@@ -16,11 +16,6 @@ const wsLink = new GraphQLWsLink(
   })
 );
 
-// The split function takes three parameters:
-//
-// * A function that's called for each operation to execute
-// * The Link to use for an operation if the function returns a "truthy" value
-// * The Link to use for an operation if the function returns a "falsy" value
 const splitLink = split(
   ({ query }) => {
     const definition = getMainDefinition(query);
@@ -33,13 +28,10 @@ const splitLink = split(
   httpLink
 );
 
-const createApolloClient = () => {
-  const client = new ApolloClient({
-    link: splitLink,
-    cache: new InMemoryCache(),
-  });
+const client = new ApolloClient({
+  link: splitLink,
+  cache: new InMemoryCache(),
+  connectToDevTools: import.meta.env.DEV,
+});
 
-  return client;
-};
-
-export default createApolloClient;
+export default client;

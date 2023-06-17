@@ -1,6 +1,7 @@
 import { Layout, Row, Col, Space, Button } from "antd";
 import { useResponsive } from "ahooks";
 import cx from "classnames";
+import { Link, useNavigate } from "react-router-dom";
 
 import styles from "./index.module.less";
 
@@ -9,6 +10,7 @@ const { Header: BasicHeader } = Layout;
 const Header: React.FC = () => {
   const responsive = useResponsive();
   const isMobile = responsive.md === false;
+  const navigate = useNavigate();
 
   return (
     <BasicHeader className={styles.header}>
@@ -23,9 +25,9 @@ const Header: React.FC = () => {
           md={12}
           className={cx(styles.col, isMobile && styles.colMobile)}
         >
-          <a className={styles.logo} href="/">
+          <Link to="/" className={styles.logo}>
             <img className={styles.logoText} alt="" src="/logo_with_text.png" />
-          </a>
+          </Link>
         </Col>
         <Col
           xs={24}
@@ -38,10 +40,18 @@ const Header: React.FC = () => {
           )}
         >
           <Space>
-            <Button type="link" className={styles.button}>
-              Sign in
+            <Button
+              type="link"
+              className={styles.button}
+              onClick={() => navigate("/login")}
+            >
+              Login
             </Button>
-            <Button type="primary" className={styles.button}>
+            <Button
+              type="primary"
+              className={styles.button}
+              onClick={() => navigate("/signup")}
+            >
               Sign up
             </Button>
           </Space>
