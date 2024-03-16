@@ -75,6 +75,14 @@ const DataModelGeneration: FC<DataModelGenerationProps> = ({
   };
 
   const onFormSubmit = (data: DynamicForm, type: string) => {
+    Object.keys(data).forEach((scope) => {
+      if (typeof data?.[scope] === "object") {
+        data[scope] = Object.keys(data[scope]).reduce((res: any, table) => ({
+          ...res,
+          [table.replace(`${scope}.`, "")]: data[scope][table],
+        }));
+      }
+    });
     onSubmit(data, type);
     if (resetOnSubmit) reset();
   };
