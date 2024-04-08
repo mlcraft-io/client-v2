@@ -43,7 +43,6 @@ const DataSourceForm: FC<DataSourceFormProps> = ({
 }) => {
   const { t } = useTranslation(["dataSourceStepForm"]);
   const { step } = DataSourceStore();
-
   return (
     <Card
       style={{

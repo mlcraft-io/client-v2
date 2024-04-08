@@ -39,19 +39,21 @@ const TableSelection: FC<TableSelectionProps> = ({
     defaultValue: initialValue,
   });
 
+  console.log(value);
+
   const isAllSelected = () =>
-    Object.keys(schema[path]).every((tb) => value[tb] === true);
+    Object.keys(schema[path]).every((tb) => value[`${path}.${tb}`] === true);
 
   const onClear = () => {
     const newVal: DynamicForm = {};
-    Object.keys(value).forEach((k) => (newVal[k] = false));
+    Object.keys(value).forEach((k) => (newVal[`${path}.${k}`] = false));
     onChange(newVal);
   };
 
   const onSelectAll = (e: CheckboxChangeEvent) => {
     if (!e.target.checked) return onClear();
     const newVal: DynamicForm = {};
-    Object.keys(schema[path]).forEach((tb) => (newVal[tb] = true));
+    Object.keys(schema[path]).forEach((tb) => (newVal[`${path}.${tb}`] = true));
     onChange(newVal);
   };
 
@@ -66,12 +68,12 @@ const TableSelection: FC<TableSelectionProps> = ({
         </Button>
       </div>
       {Object.keys(schema[path]).map((tb) => (
-        <div key={tb}>
+        <div key={`${path}.${tb}`}>
           <div className={cn(styles.field)}>
             <Checkbox
-              checked={value?.[tb]}
+              checked={value?.[`${path}.${tb}`]}
               onChange={(e) => {
-                onChange({ ...value, [tb]: e.target.checked });
+                onChange({ ...value, [`${path}.${tb}`]: e.target.checked });
               }}
             >
               <span

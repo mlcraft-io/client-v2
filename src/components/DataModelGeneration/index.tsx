@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import cn from "classnames";
 import { useResponsive } from "ahooks";
 import { useForm } from "react-hook-form";
+import { init } from "i18next";
 
 import Input from "@/components/Input";
 import type {
@@ -57,6 +58,7 @@ const DataModelGeneration: FC<DataModelGenerationProps> = ({
 }) => {
   const { t } = useTranslation(["dataModelGeneration", "common"]);
 
+  console.log(initialValue);
   const { control, handleSubmit, watch, reset } = useForm<DynamicForm>({
     values: initialValue,
   });
@@ -74,7 +76,21 @@ const DataModelGeneration: FC<DataModelGenerationProps> = ({
     }
   };
 
+  console.log("loading", loading);
+
   const onFormSubmit = (data: DynamicForm, type: string) => {
+    Object.keys(data).forEach((scope) => {
+      if (typeof data?.[scope] === "object") {
+        data[scope] = Object.keys(data[scope]).reduce(
+          (res: any, table: any) => ({
+            ...res,
+            [table.replace(`${scope}.`, "")]: data[scope][table],
+          }),
+          {}
+        );
+      }
+    });
+    console.log("formsubmit", data);
     onSubmit(data, type);
     if (resetOnSubmit) reset();
   };

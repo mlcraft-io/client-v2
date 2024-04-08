@@ -60,10 +60,11 @@ export default ({ editId }: Props) => {
     clean,
     setSchema,
     setFormStateData,
+    formState,
   } = DataSourceStore();
 
   const [fetchTablesQuery, execFetchTables] = useFetchTablesQuery({
-    variables: { id: dataSourceSetup?.id },
+    variables: { id: editId },
     pause: true,
   });
 
@@ -91,9 +92,11 @@ export default ({ editId }: Props) => {
     () => teamData?.dataSources || [],
     [teamData]
   ) as DataSourceInfo[];
+
   const curDataSource = useMemo(
     () =>
-      dataSources.find((d) => d.id === editId || d.id === dataSourceSetup?.id),
+      dataSources.find((d) => d.id === editId) ||
+      dataSources.find((d) => d.id === dataSourceSetup?.id),
     [editId, dataSourceSetup?.id, dataSources]
   );
 
@@ -130,56 +133,70 @@ export default ({ editId }: Props) => {
     }
   };
 
-  const prepareSqlApiData = (
-    dataSourceName?: string,
-    dataSourceId?: string
-  ): { apiConfig: ApiSetupForm; credentialParams: CredentialParams } => {
-    const apiConfig: ApiSetupForm = prepareInitValues(
-      dataSourceId,
-      currentUser.id,
-      dataSourceName
-    );
-    const credentialParams: CredentialParams = {
-      user_id: currentUser.id,
-      username: apiConfig.db_username,
-      password: apiConfig.password,
-    };
-
-    if (dataSourceId) {
-      credentialParams.datasource_id = dataSourceId;
-    }
-
-    return { apiConfig, credentialParams };
-  };
-
-  const tryInsertSqlCredentials = async (
-    dataSourceId?: string,
-    dataSourceName?: string,
-    attemptsLeft: number = 5
-  ): Promise<ApiSetupForm | any> => {
-    if (attemptsLeft === 0) {
-      return false;
-    }
-
-    const { apiConfig, credentialParams } = prepareSqlApiData(
-      dataSourceName,
-      dataSourceId
-    );
-    const res = await execInsertSqlCredentialsMutation({
-      object: credentialParams,
-    });
-
-    const newCredentials = res.data?.insert_sql_credentials_one;
-    if (res.error || !newCredentials) {
-      return await tryInsertSqlCredentials(
+  const prepareSqlApiData = useCallback(
+    (
+      dataSourceName?: string,
+      dataSourceId?: string
+    ): { apiConfig: ApiSetupForm; credentialParams: CredentialParams } => {
+      const apiConfig: ApiSetupForm = prepareInitValues(
         dataSourceId,
-        dataSourceName,
-        attemptsLeft - 1
+        currentUser.id,
+        dataSourceName
       );
-    }
+      const credentialParams: CredentialParams = {
+        user_id: currentUser.id,
+        username: apiConfig.db_username,
+        password: apiConfig.password,
+      };
 
-    return apiConfig;
-  };
+      if (dataSourceId) {
+        credentialParams.datasource_id = dataSourceId;
+      }
+
+      return { apiConfig, credentialParams };
+    },
+    [currentUser.id]
+  );
+
+  const tryInsertSqlCredentials = useCallback(
+    async (
+      dataSourceId?: string,
+      dataSourceName?: string,
+      attemptsLeft: number = 5
+    ): Promise<ApiSetupForm | any> => {
+      if (attemptsLeft === 0) {
+        return false;
+      }
+
+      const { apiConfig, credentialParams } = prepareSqlApiData(
+        dataSourceName,
+        dataSourceId
+      );
+      const res = await execInsertSqlCredentialsMutation({
+        object: credentialParams,
+      });
+
+      const newCredentials = res.data?.insert_sql_credentials_one;
+      if (res.error || !newCredentials) {
+        return await tryInsertSqlCredentials(
+          dataSourceId,
+          dataSourceName,
+          attemptsLeft - 1
+        );
+      }
+
+      DataSourceStore.setState((prev) => ({
+        ...prev,
+        formState: {
+          ...prev.formState,
+          step3: { ...apiConfig },
+        },
+      }));
+
+      return apiConfig;
+    },
+    [execInsertSqlCredentialsMutation, prepareSqlApiData]
+  );
 
   const createOrUpdateDataSource = async (data: DataSourceSetupForm) => {
     let dataSourceId;
@@ -321,10 +338,10 @@ export default ({ editId }: Props) => {
   }, [curDataSource, dataSourceSetup?.id, dataSources, editId]);
 
   useEffect(() => {
-    if (step === 2 && dataSourceSetup?.id && !schema) {
+    if (step === 2 && curDataSource?.id && !schema) {
       execFetchTables();
     }
-  }, [dataSourceSetup?.id, schema, step, execFetchTables]);
+  }, [curDataSource?.id, schema, step, execFetchTables]);
 
   useEffect(() => {
     if (fetchTablesQuery.data) {
@@ -333,10 +350,13 @@ export default ({ editId }: Props) => {
   }, [fetchTablesQuery.data, setSchema]);
 
   useEffect(() => {
-    if (step === 0) {
-      clean();
+    if (step === 3) {
+      tryInsertSqlCredentials(
+        curDataSource?.id as string | undefined,
+        curDataSource?.name as string | undefined
+      );
     }
-  }, [clean, step]);
+  }, [curDataSource?.id, curDataSource?.name, step, tryInsertSqlCredentials]);
 
   const loading =
     createMutation.fetching ||

@@ -33,6 +33,7 @@ export interface DataSourceState extends DataSourceData {
   setIsGenerate: (value: boolean) => void;
   setIsOnboarding: (value: boolean) => void;
   clean: () => void;
+  reset: (set: (newValue: DataSourceState) => void) => void;
 }
 
 export const defaultFormState = {
@@ -81,7 +82,9 @@ const dataSourceStore = create<DataSourceState>((set) => ({
       ...prev,
       isOnboarding: value,
     })),
-  clean: () => set({ ...defaultState }),
+  clean: () =>
+    set((prev) => ({ ...defaultState, isOnboarding: prev.isOnboarding })),
+  reset: set as any,
 }));
 
 export default dataSourceStore;

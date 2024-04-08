@@ -106,7 +106,7 @@ const ApiSetup: FC<ApiSetupProps> = ({
       password = initialValue?.password,
       database = initialValue?.db,
     }) => {
-      const [hostname, port] = host.split(":");
+      const [hostname, port] = host ? host?.split?.(":") : [];
 
       const portOption = port ? `-P ${port}` : "";
       const psqlPortOption = port ? `--port=${port}` : "";
@@ -239,7 +239,16 @@ const ApiSetup: FC<ApiSetupProps> = ({
         <div className={cn(styles.textareaWrapper, styles.label)}>
           <Input
             control={control}
-            defaultValue={createConnectionString({})}
+            defaultValue={
+              initialValue
+                ? createConnectionString({
+                    user: initialValue?.db_username,
+                    password: initialValue?.password,
+                    host: connectionUrls[CONNECTION_DEFAULT],
+                    connection: initialValue?.connection,
+                  })
+                : ""
+            }
             name="connection_string"
             fieldType="textarea"
             label={`${getLabel("connect_using")} ${

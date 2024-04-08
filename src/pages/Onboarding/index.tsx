@@ -41,7 +41,7 @@ const Onboarding: React.FC<OnboardingProps> = ({
   onDataModelGenerationSubmit = () => {},
 }) => {
   const responsive = useResponsive();
-  const { currentUser } = CurrentUserStore();
+  const { currentUser, teamData } = CurrentUserStore();
 
   const header = (
     <Navbar
@@ -79,6 +79,7 @@ const OnboardingWrapper = () => {
   const [, setLocation] = useLocation();
   const basePath = ONBOARDING;
 
+  const { teamData } = CurrentUserStore();
   const step = useMemo(() => parseInt(pageStep || "0", 10) - 1, [pageStep]);
 
   const {
@@ -91,7 +92,9 @@ const OnboardingWrapper = () => {
   } = DataSourceStore();
 
   const { loading, onDataSourceSetupSubmit, onDataModelGenerationSubmit } =
-    useOnboarding({});
+    useOnboarding({
+      editId: teamData?.dataSources?.[0]?.id as string | undefined,
+    });
 
   const onFinish = () => {
     clean();

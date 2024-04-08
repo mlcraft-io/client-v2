@@ -120,6 +120,7 @@ const DataSourceFormBody: FC<DataSourceFormBodyProps> = ({
       );
     case 3:
       const initialValue = formState?.step3 || formData?.step3;
+
       return (
         <ApiSetup
           isOnboarding={isOnboarding}
